@@ -129,7 +129,12 @@
   <ItemGroup>
     <ClCompile Include="Admin.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="DataSource.cpp" />
     <ClCompile Include="Employee.cpp" />
+    <ClCompile Include="FileHelper.cpp" />
+    <ClCompile Include="FileManager.cpp" />
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Project - BankingSystem - Farm.cpp" />
     <ClCompile Include="Validation.cpp" />
@@ -137,7 +142,12 @@
   <ItemGroup>
     <ClInclude Include="Admin.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="DataSource.h" />
     <ClInclude Include="Employee.h" />
+    <ClInclude Include="FileHelper.h" />
+    <ClInclude Include="FileManager.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Validation.h" />
   </ItemGroup>
