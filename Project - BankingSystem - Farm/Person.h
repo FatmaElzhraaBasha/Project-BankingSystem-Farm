@@ -1,29 +1,33 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include "Validation.h"
 
 using namespace std;
 
 class Person {
 protected:
+    //Attributes
     int id;
     string name;
     string password;
-    double balance;
     static int idCounter;
 
 public:
     // Constructors
+    //1-Defaule Cons
+    //==========================
     Person() {
-        id = ++idCounter;
-        balance = 0;
+        id = 0;
+        idCounter++;
     }
 
-    Person(const string& name, const string& password, double balance) {
-        this->id = ++idCounter;
-        this->name = name;
-        this->password = password;
-        this->balance = balance;
+    //2-Parameterized Cons
+    //============================
+    Person(int id, const string& name, const string& password) {
+        setId(id);
+        setName(name);
+        setPassword(password);
     }
 
     // Setters
@@ -32,18 +36,17 @@ public:
     }
 
     void setName(const string& name) {
-        Validation::validateName(name);
-        this->name = name;
+        if (Validation::validateName(name))
+            this->name = name;
+        else
+            cout << "Invalid Name" << endl;
     }
 
     void setPassword(const string& password) {
-        Validation::validatePassword(password);
-        this->password = password;
-    }
-
-    void setBalance(double balance) {
-        Validation::validateMinBalance(balance);
-        this->balance = balance;
+        if (Validation::validatePassword(password))
+            this->password = password;
+        else
+            cout << "Invalid Password" << endl;
     }
 
     // Getters
@@ -59,14 +62,6 @@ public:
         return password;
     }
 
-    double getBalance() const {
-        return balance;
-    }
-
     // Methods
-    virtual void displayInfo() const {
-        cout << "ID     : " << id << endl;
-        cout << "Name   : " << name << endl;
-        cout << "Balance: " << balance << endl;
-    }
+    virtual void displayInfo() = 0;
 };

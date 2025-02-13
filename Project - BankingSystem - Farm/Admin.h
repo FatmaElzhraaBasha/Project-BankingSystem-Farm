@@ -4,17 +4,26 @@
 class Admin : public Employee {
 public:
     // Constructors
-    Admin() {
+    //1-Defaule Cons
+    //==========================
+    Admin() :Employee() {
 
     }
 
-    Admin(const string& name, const string& password, double balance, double salary) : Employee(name, password, balance, salary) {
+    //2-Parameterized Cons
+    //============================
+    Admin(int id, const string& name, const string& password, double salary) : Employee(id, name, password, salary) {
+        this->id = 1;
 
     }
 
     // Display Info (overrid)
     void displayInfo() {
-        cout << "Admin Info:" << endl;
-        Employee::displayInfo();
+        cout << "     ** Admin Info **" << endl;
+        cout << "Admin ID     : " << id << endl;
+        cout << "Admin Name   : " << name << endl;
+        cout << "Admin Salary : " << salary << endl;
+        cout << "\n==============================\n";
     }
 };
+
