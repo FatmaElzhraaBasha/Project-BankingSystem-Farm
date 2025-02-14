@@ -11,11 +11,49 @@ using namespace std;
 int Client::clientCounter = 0;
 const string Client::bankKey = "2025";
 int Employee::employeeCounter = 1;
+//Admin* Admin::myAdmin = nullptr;
+
+
+static void runTests() {
+    cout << "Running Tests...\n";
+
+    // Test Client
+    Client client1("Alice", "pass123", 5000);
+    client1.displayInfo();
+    client1.deposit(1000);
+    client1.withdraw(500);
+    cout << "Balance after transactions: " << client1.getBalance() << "\n";
+
+    // Test Employee
+    Employee emp1("Bob", "empPass", 10000);
+    emp1.displayInfo();
+    emp1.addClient(client1);
+    emp1.listClients();
+
+    // Test Admin (Singleton)
+    Admin* admin = Admin::getmyAdmin();
+    admin->displayInfo();
+    admin->addEmployee(emp1);
+    admin->listEmployee();
+
+    // Test Transfer
+    Client client2("Charlie", "charliePass", 3000);
+    client1.transferTo(1000, client2);
+    cout << "Client1 Balance: " << client1.getBalance() << "\n";
+    cout << "Client2 Balance: " << client2.getBalance() << "\n";
+
+    cout << "All tests completed successfully!\n";
+}
 
 int main()
 {
     cout << "Bank System\n";
     cout << "Farm Bank\n";
+
+    runTests();
+
+    // Get the single instance of Admin (Singleton)
+    /*Admin* admin = Admin::getmyAdmin();
 
     Client c(0, "Mai Othman", "Mai@Othman", 5000);
 
@@ -29,7 +67,7 @@ int main()
     e.displayInfo();
     e1.displayInfo();
     a.displayInfo();
-    a1.displayInfo();
+    a1.displayInfo();*/
 
     /*string clientData = "101,homosaa,33333,5000.50";
     string employeeData = "201,Amr,444444,3000.75";

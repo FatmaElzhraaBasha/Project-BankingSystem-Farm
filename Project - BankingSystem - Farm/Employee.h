@@ -24,7 +24,7 @@ public:
 
     //2-Parameterized Cons
     //============================
-    Employee(int id, const string& name, const string& password, double salary)
+    Employee(const string& name, const string& password, double salary)
         : Person(name, password) {
         setId(id);
         setSalary(salary);

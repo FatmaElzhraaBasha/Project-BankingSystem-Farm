@@ -24,7 +24,7 @@ public:
         setBalance(balance);
     }*/
 
-    Client(int id, const string& name, const string& password, double balance)
+    Client(const string& name, const string& password, double balance)
         : Person(name, password) {
         setId(id);
         setBalance(balance);
