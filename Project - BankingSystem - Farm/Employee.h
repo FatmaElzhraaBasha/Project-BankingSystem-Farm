@@ -8,9 +8,10 @@ class Employee : public Person {
 protected:
     //Attributes
     double salary;
+    int id;
     static int employeeCounter;        // Counter for unique ID generation
 
-    vector<Client> clients;            // Vector to store clients data
+    vector<Client> clientVector;            // Vector to store clients data
 
 public:
     // Constructors
@@ -18,11 +19,13 @@ public:
     //==========================
     Employee() {
         salary = 0;
+        id = 0;
     }
 
     //2-Parameterized Cons
     //============================
-    Employee(int id, const string& name, const string& password, double salary) : Person(id, name, password) {
+    Employee(int id, const string& name, const string& password, double salary)
+        : Person(name, password) {
         setId(id);
         setSalary(salary);
     }
@@ -40,22 +43,25 @@ public:
     }
 
     // Getters
-    double getSalary() {
-        return salary;
+    double getSalary() const {
+        return this->salary;
+    }
+    int getId() const {
+        return this->id;
     }
 
     //Methods:
     // To add new client
     void addClient(Client& client) {
-        clients.push_back(client);
+        clientVector.push_back(client);
         saveClientsToFile();
     }
 
     // To save client data at file
     void saveClientsToFile() {
         ofstream file("Clients.txt", ios::trunc);
-        for (const auto& client : clients) {
-            file << client.getId() << " " << client.getName() << " " << client.getPassword() << " " << client.getBalance() << endl;
+        for (auto& client : clientVector) {
+            file << to_string(client.getId()) << " " << client.getName() << " " << client.getPassword() << " " << client.getBalance() << endl;
         }
         file.close();
         cout << "Clients data saved to file." << endl;
@@ -63,7 +69,7 @@ public:
 
     // Search for client by id
     Client* searchClient(int id) {
-        for (auto& client : clients) {
+        for (auto& client : clientVector) {
             if (client.getId() == id) {
                 return &client;
             }
@@ -73,7 +79,7 @@ public:
 
     // Search for client by Name
     Client* searchClient(string name) {
-        for (auto& client : clients) {
+        for (auto& client : clientVector) {
             if (client.getName() == name) {
                 return &client;
             }
@@ -83,13 +89,13 @@ public:
 
     // list of clients to print
     void listClients() {
-        if (clients.empty()) {
+        if (clientVector.empty()) {
             cout << "No clients available." << endl;
             return;
         }
         cout << "List of Clients:" << endl;
-        for (const auto& client : clients) {
-            cout << "ID: " << client.getId() << ", Name: " << client.getName()
+        for (auto& client : clientVector) {
+            cout << "ID: " << to_string(client.getId()) << ", Name: " << client.getName()
                 << ", Balance: " << client.getBalance() << " EGP" << endl;
         }
     }

@@ -8,32 +8,32 @@ using namespace std;
 class Person {
 protected:
     //Attributes
-    int id;
+    //int id;
     string name;
     string password;
-    static int idCounter;
+    //static int idCounter;
 
 public:
     // Constructors
     //1-Defaule Cons
     //==========================
     Person() {
-        id = 0;
-        idCounter++;
+        //id = 0;
+        //idCounter++;
     }
 
     //2-Parameterized Cons
     //============================
-    Person(int id, const string& name, const string& password) {
-        setId(id);
+    Person(const string& name, const string& password) {
+        //setId(id);
         setName(name);
         setPassword(password);
     }
 
     // Setters
-    void setId(int id) {
+    /*void setId(int id) {
         this->id = id;
-    }
+    }*/
 
     void setName(const string& name) {
         if (Validation::validateName(name))
@@ -50,9 +50,9 @@ public:
     }
 
     // Getters
-    int getId() const {
+    /*int getId() const {
         return id;
-    }
+    }*/
 
     string getName() const {
         return name;

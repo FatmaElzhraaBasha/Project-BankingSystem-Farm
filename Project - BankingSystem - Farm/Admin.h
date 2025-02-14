@@ -12,7 +12,8 @@ public:
 
     //2-Parameterized Cons
     //============================
-    Admin(int id, const string& name, const string& password, double salary) : Employee(id, name, password, salary) {
+    Admin(int id, const string& name, const string& password, double salary)
+        : Employee(id, name, password, salary) {
         this->id = 1;
 
     }

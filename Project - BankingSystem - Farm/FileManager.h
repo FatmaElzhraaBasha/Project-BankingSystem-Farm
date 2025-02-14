@@ -1,43 +1,46 @@
 #pragma once
 #include "DataSource.h"
-#include "FilesHelper.h"
+#include "FileHelper.h"
 #include <fstream>
 #include <stdio.h>
+#include "Client.h"
+#include "Employee.h"
+#include "Admin.h"
 using namespace std;
 
 class FileManager : public DataSource {
 public:
     FileManager() {}
     void addClient(Client& client) {
-        FilesHelper::saveClient(client);
+        FileHelper::saveClient(client);
     }
     void addEmployee(Employee& employee) {
-        FilesHelper::saveEmployee(employee);
+        FileHelper::saveEmployee(employee);
     }
     void addAdmin(Admin& admin) {
-        FilesHelper::saveAdmin(admin);
+        FileHelper::saveAdmin(admin);
     }
     vector<Client> getAllClients() {
-        FilesHelper::getClients();
+        FileHelper::getClients();
         return clientVector;
     }
     vector<Employee>getAllEmployees() {
-        FilesHelper::getEmployees();
+        FileHelper::getEmployees();
         return EmployeeVector;
     }
     vector<Admin>getAllAdmins() {
-        FilesHelper::getAdmins();
+        FileHelper::getAdmins();
         return AdminVector;
     }
     void removeAllClients() {
-        FilesHelper::clearFile("Clients", "ClientsLast");
+        FileHelper::clearFile("Clients", "ClientsLast");
     }
     void removeAllEmployees() {
-        FilesHelper::clearFile("Employee", "EmployeeLast");
+        FileHelper::clearFile("Employee", "EmployeeLast");
 
     }
     void removeAllAdmins() {
-        FilesHelper::clearFile("Admin", "AdminLast");
+        FileHelper::clearFile("Admin", "AdminLast");
 
     }
 };

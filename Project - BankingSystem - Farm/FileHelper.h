@@ -11,7 +11,7 @@
 #include <string>
 
 using namespace std;
-class FilesHelper {
+class FileHelper {
 public:
     static void saveLast(string fileName, int id) {
         ofstream output;
@@ -32,42 +32,42 @@ public:
         return lastId;
     }
     static void saveClient(Client c) {
-        ofstream output;
-        output.open("Clients.txt");
+        string fileName = "Clients.txt";
+        fstream output(fileName, ios::app);
         if (!output.is_open()) {
             cout << "Error openening the file" << endl;
             return;
         }
-        output << c.getLastClientId() << " & " << c.getName() << " & " << c.getBalance() << endl;
+        //output << c.getIdClient() << "&" << c.getName() << "&" << c.getPassword() << "&" << c.getBalance() << endl;
+        output << c.getId() << "&" << c.getName() << "&" << c.getPassword() << "&" << c.getBalance() << endl;
         output.close();
 
     }
     static void saveEmployee(Employee e) {
-        ofstream output;
-        output.open("Employees.txt");
-        if (!output.is_open())
-        {
+        string fileName = "Employees.txt";
+        fstream output(fileName, ios::app);
+        if (!output.is_open()) {
             cout << "Error openening the file" << endl;
             return;
         }
-        output << e.getLastEmployeeId() << " & " << e.getName() << " & " << e.getSalary() << endl;
+        //output << e.getIdEmployee() << "&" << e.getName() << "&" << e.getPassword() << "&" << e.getSalary() << endl;
+        output << e.getId() << "&" << e.getName() << "&" << e.getPassword() << "&" << e.getSalary() << endl;
         output.close();
     }
     static void saveAdmin(Admin a) {
-        ofstream output;
-        output.open("Admin.txt");
-        if (!output.is_open())
-        {
+        string fileName = "Admin.txt";
+        fstream output(fileName, ios::app);
+        if (!output.is_open()) {
             cout << "Error openening the file" << endl;
             return;
         }
-        output << a.getLastEmployeeId() << " & " << a.getName() << " & " << a.getSalary() << endl;
+        //output << a.getIdAdmin() << "&" << a.getName() << "&" << a.getPassword() << "&" << a.getSalary() << endl;
+        output << a.getId() << "&" << a.getName() << "&" << a.getPassword() << "&" << a.getSalary() << endl;
         output.close();
     }
     static void getClients() {
-        ifstream input;
         string fileName = "Clients.txt", line;
-        input.open(fileName);
+        fstream input(fileName, ios::in);
         if (!input.is_open()) {
             cout << "Error openening the file" << endl;
             return;
@@ -77,10 +77,10 @@ public:
             clientVector.push_back(c);
         }
     }
+
     static void getEmployees() {
-        ifstream input;
-        input.open("Employees.txt");
-        string line;
+        string fileName = "Employees.txt", line;
+        fstream input(fileName, ios::in);
         if (!input.is_open()) {
             cout << "Error opening the file" << endl;
             return;
@@ -90,10 +90,10 @@ public:
             EmployeeVector.push_back(e);
         }
     }
+
     static void  getAdmins() {
-        ifstream input;
-        input.open("Admin.txt");
-        string line;
+        string fileName = "Admin.txt", line;
+        fstream input(fileName, ios::in);
         if (!input.is_open()) {
             cout << "Error opening the file" << endl;
             return;
@@ -111,6 +111,7 @@ public:
         output << 0 << endl;
         output.close();
         ////Todo reset the static id = 0;
+
     }
 };
 

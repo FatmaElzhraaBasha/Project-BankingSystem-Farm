@@ -3,8 +3,9 @@
 #include "Client.h"
 #include "Employee.h"
 #include "Admin.h"
+#include <vector>
 
-extern vector <Client> clientVector;
-extern vector <Employee> EmployeeVector;
-extern vector <Admin> AdminVector;
+extern std::vector <Client> clientVector;
+extern std::vector <Employee> EmployeeVector;
+extern std::vector <Admin> AdminVector;
 

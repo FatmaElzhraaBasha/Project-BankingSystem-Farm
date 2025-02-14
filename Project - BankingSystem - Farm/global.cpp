@@ -1,5 +1,5 @@
 #include "global.h"
 
-vector <Client> clientVector;
-vector <Employee> EmployeeVector;
-vector <Admin> AdminVector;
+std::vector <Client> clientVector;
+std::vector <Employee> EmployeeVector;
+std::vector <Admin> AdminVector;

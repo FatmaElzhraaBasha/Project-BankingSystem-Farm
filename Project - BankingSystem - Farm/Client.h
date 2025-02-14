@@ -7,6 +7,7 @@ private:
     double balance;
     static int clientCounter; // Counter for unique ID generation
     static const string bankKey;
+    int id;
 
 public:
     // Constructors
@@ -14,6 +15,7 @@ public:
     //==========================
     Client() :Person() {
         balance = 0;
+        id = 0;
     }
 
     //2-Parameterized Cons
@@ -23,14 +25,9 @@ public:
     }*/
 
     Client(int id, const string& name, const string& password, double balance)
-        : Person(id, name, password) {
-        setID(id);
+        : Person(name, password) {
+        setId(id);
         setBalance(balance);
-    }
-
-    void setID(int id) {
-        this->id = stoi(bankKey + to_string(++clientCounter));
-
     }
 
     //Setters
@@ -40,10 +37,16 @@ public:
         else
             cout << "Invalid Balance" << endl;
     }
+    void setId(int id) {
+        this->id = stoi(bankKey + to_string(++clientCounter));
+    }
 
     //Getters
     double getBalance() const {
-        return balance;
+        return this->balance;
+    }
+    int getId() const {
+        return this->id;
     }
 
     // Methods
