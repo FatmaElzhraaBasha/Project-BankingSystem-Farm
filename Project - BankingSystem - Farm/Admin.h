@@ -31,7 +31,7 @@ public:
     Admin& operator=(const Admin&) = delete;*/
 
     // Static method to get the single instance of Admin
-    static Admin* getmyAdmin() {
+    static Admin* getMyAdmin() {
         if (myAdmin == nullptr) {
             myAdmin = new Admin();
         }

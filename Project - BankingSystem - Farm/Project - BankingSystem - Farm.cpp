@@ -31,7 +31,7 @@ static void runTests() {
     emp1.listClients();
 
     // Test Admin (Singleton)
-    Admin* admin = Admin::getmyAdmin();
+    Admin* admin = Admin::getMyAdmin();
     admin->displayInfo();
     admin->addEmployee(emp1);
     admin->listEmployee();
@@ -50,7 +50,7 @@ int main()
     cout << "Bank System\n";
     cout << "Farm Bank\n";
 
-    runTests();
+    //runTests();
 
     // Get the single instance of Admin (Singleton)
     /*Admin* admin = Admin::getmyAdmin();

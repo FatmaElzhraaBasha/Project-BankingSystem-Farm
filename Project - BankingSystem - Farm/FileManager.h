@@ -1,47 +1,73 @@
 #pragma once
 #include "DataSource.h"
 #include "FileHelper.h"
-#include <fstream>
-#include <stdio.h>
-#include "Client.h"
-#include "Employee.h"
-#include "Admin.h"
-using namespace std;
+#include "global.h"
 
 class FileManager : public DataSource {
-public:
-    FileManager() {}
-    void addClient(Client& client) {
+private:
+    static void addClient(Client& client) {
         FileHelper::saveClient(client);
     }
-    void addEmployee(Employee& employee) {
+
+    static void addEmployee(Employee& employee) {
         FileHelper::saveEmployee(employee);
     }
-    void addAdmin(Admin& admin) {
-        FileHelper::saveAdmin(admin);
+
+    static void addAdmin(Admin& admin) {
+        FileHelper::saveMyAdmin(admin);
     }
-    vector<Client> getAllClients() {
+
+    static vector<Client> getAllClients() {
         FileHelper::getClients();
-        return clientVector;
+        return clientsInfo;
     }
-    vector<Employee>getAllEmployees() {
+
+    static vector<Employee>getAllEmployees() {
         FileHelper::getEmployees();
-        return EmployeeVector;
+        return employeesInfo;
     }
-    vector<Admin>getAllAdmins() {
-        FileHelper::getAdmins();
-        return AdminVector;
-    }
-    void removeAllClients() {
-        FileHelper::clearFile("Clients", "ClientsLast");
-    }
-    void removeAllEmployees() {
-        FileHelper::clearFile("Employee", "EmployeeLast");
 
+    static vector<Admin>getMyAdmin() {
+        FileHelper::getMyAdmin();
+        return adminInfo;
     }
-    void removeAllAdmins() {
-        FileHelper::clearFile("Admin", "AdminLast");
 
+    static void removeAllClients() {
+        FileHelper::clearFile("Clients.txt", "ClientsLastId.txt");
     }
+
+    static void removeAllEmployees() {
+        FileHelper::clearFile("Employees.txt", "EmployeeLastId.txt");
+    }
+
+    static void removeMyAdmin() {
+        FileHelper::clearFile("Admin.txt", "AdminId.txt");
+    }
+
+public:
+    static void getAllData() {
+        getAllClients();
+        getAllEmployees();
+        getMyAdmin();
+    }
+
+    static void updateClients() {
+        removeAllClients();
+        for (cItr = clientsInfo.begin(); cItr != clientsInfo.end(); cItr++)
+            addClient(*cItr);
+    }
+
+    static void updateEmployees() {
+        removeAllEmployees();
+        for (eItr = employeesInfo.begin(); eItr != employeesInfo.end(); eItr++)
+            addEmployee(*eItr);
+    }
+    
+    static void updateAdmin() {
+        removeMyAdmin();
+        for (aItr = adminInfo.begin(); aItr != adminInfo.end(); aItr++)
+            addAdmin(*aItr);
+    }
+
 };
 
