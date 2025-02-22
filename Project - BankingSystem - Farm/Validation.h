@@ -9,7 +9,6 @@ public:
     // Validate name
     // Must be between 5 and 20 characters in length 
     // The name should only contain alphabetic characters and spaces only
-
     static bool validateName(const string& name) {
         if (!(name.length() >= 5 && name.length() <= 20)) {
             cout << "Name must be between 5 and 20 characters\n";
@@ -18,16 +17,15 @@ public:
 
         for (int i = 0; i < name.length(); i++) {
             if (!(isalpha(name[i]) || name[i] == ' ')) {
-                cout << "Name must contain only alphabetic characters and spaces.";
+                cout << "Name must contain only alphabetic characters and spaces.\n";
                 return false;
             }
-            return true;
         }
+        return true;
     }
 
     // Validate password
     // Must be between 8 and 20 characters in length
-
     static bool validatePassword(const string& password) {
         if (!(password.length() >= 8 && password.length() <= 20)) {
             cout << "Password must be between 8 and 20 characters";
@@ -47,6 +45,11 @@ public:
                 hasDigit = true;
             else if (specialChars.find(ch) != string::npos)  //To search is special char is found or not
                 hasSpecial = true;
+        }
+
+        if (!(hasUpper && hasLower && hasDigit && hasSpecial)) {
+            cout << "Password must contain at least one uppercase letter and one lowercase letter and one digit and one special character (@$!%*?&)\n";
+            return false;
         }
         return true;
         //return hasUpper && hasLower && hasDigit && hasSpecial;
@@ -85,7 +88,6 @@ public:
             cout << "Deposit amount must be greater than 0.";
             return false;
         }
-        return true;
 
         if (amount > balance) {
             cout << "Insufficient balance.";
@@ -100,7 +102,6 @@ public:
             cout << "Transfer amount must be greater than 0.";
             return false;
         }
-        return true;
 
         if (amount > balance) {
             cout << "Insufficient balance.";
