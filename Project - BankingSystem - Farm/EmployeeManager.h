@@ -126,6 +126,7 @@ public:
 			cout << "You Enter Invalid Number, Try Again !!" << endl;
 			break;
 		}
+		return true;
 	}
 };
 

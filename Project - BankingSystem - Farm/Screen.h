@@ -132,7 +132,7 @@ public:
             ClientManager::clientOptions(screenClient);
             break;
         case2:
-           // EmployeeManager::employeeOptions(screenClient);
+            EmployeeManager::employeeOptions(screenClient);
             break;
         case3:
             AdminManager::AdminOptions(screenClient);
@@ -174,7 +174,7 @@ public:
             break;
         }
         case 2: {
-            /*trials = 3;
+            trials = 3;
             while (trials > 0) {
                 cout << "Enter id: " << endl;
                 cin >> id;
@@ -197,7 +197,7 @@ public:
             }
             cout << "You exceeded the number of trials, please contact the Admin!"
                 << endl;
-            loginScreen(loginAs());*/
+            loginScreen(loginAs());
             break;
         }
         case 3: {
