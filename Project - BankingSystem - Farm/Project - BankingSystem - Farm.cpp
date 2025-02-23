@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <stdexcept>
 #include "Person.h"
@@ -6,6 +6,7 @@
 #include "Employee.h"
 #include "Admin.h"
 #include "Validation.h"
+#include "Screen.h"
 using namespace std;
 
 int Client::clientCounter = 0;
@@ -47,8 +48,7 @@ static void runTests() {
 
 int main()
 {
-    cout << "Bank System\n";
-    cout << "Farm Bank\n";
+    Screen::runApp();
 
     //runTests();
 

@@ -22,7 +22,7 @@ public:
     // a method to clear input buffers (if someone entered wrong value or characters instead of numbers in cin, it resets the cin)
     static void clearInputBuffer() {
         cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        //cin.ignore(numeric_limits<streamsize>);
     }
 
     //a method for updating Clients.txt file with the latest client data
@@ -69,7 +69,7 @@ public:
     }
 
     // log in method 
-    static Client* login(int id, const string& password) {
+    static Client* logIn(int id, const string& password) {
         FileHelper::getClients();
         for (const auto& client : clientsInfo) {
             if (client.getId() == id && client.getPassword() == password) {
@@ -92,25 +92,26 @@ public:
         return true;
     }
     //a method for updating the client’s data in memory and file
-    static void updateClientData(Client& client) {
-        FileHelper::getClients();
-        for (auto& existingClient : clientsInfo) {
-            if (existingClient.getId() == client.getId()) {
-                existingClient = client;
-                break;
-            }
-        }
+    //static void updateClientData(Client* client) {
+    //    FileHelper::getClients();
+    //    for (auto& existingClient : clientsInfo) {
+    //        if (existingClient.getId() == client->getId()) {
+    //           // existingClient = client;
+    //            client = existingClient;
+    //            break;
+    //        }
+    //    }
 
-        updateClientFile(clientsInfo);
-    }
+    //    updateClientFile(clientsInfo);
+    //}
 
     // client menu options that gives the user choices on what to do
-    static bool clientOptions(Client& client) {
+    static bool clientOptions(Client* client) {
         int choice;
         double amount;
         int recipientId;
         FileHelper::getClients();
-        auto recipient = client.end();
+        auto recipient = clientsInfo.end();
 
         printClientMenu();
 
@@ -122,24 +123,24 @@ public:
 
         switch (choice) {
         case 1:
-            client.displayInfo();
+            client->displayInfo();
             break;
 
         case 2:
-            client.checkBalance();
+            client->checkBalance();
             break;
 
         case 3:
             if (getNumericInput(amount, "Enter amount to deposit: ") && Validation::validateDeposit(amount)) {
-                client.deposit(amount);
-                updateClientData(client);
+                client->deposit(amount);
+                FileManager::updateClients();
             }
             break;
 
         case 4:
-            if (getNumericInput(amount, "Enter amount to withdraw: ") && Validation::validateWithdraw(amount, client.getBalance())) {
-                client.withdraw(amount);
-                updateClientData(client);
+            if (getNumericInput(amount, "Enter amount to withdraw: ") && Validation::validateWithdraw(amount, client->getBalance())) {
+                client->withdraw(amount);
+                FileManager::updateClients();
             }
             break;
 
@@ -151,16 +152,16 @@ public:
                 break;
             }
 
-            if (!getNumericInput(amount, "Enter amount to transfer: ") || !Validation::validateTransfer(amount, client.getBalance())) {
+            if (!getNumericInput(amount, "Enter amount to transfer: ") || !Validation::validateTransfer(amount, client->getBalance())) {
                 break;
             }
 
-            recipient = find_if(clients.begin(), clients.end(),
+            recipient = find_if(clientsInfo.begin(), clientsInfo.end(),
                 [recipientId](const Client& c) { return c.getId() == recipientId; });
 
-            if (recipient != clients.end()) {
-                client.transferTo(amount, *recipient);
-                updateClientFile(clients);
+            if (recipient != clientsInfo.end()) {
+                client->transferTo(amount, *recipient);
+                updateClientFile(clientsInfo);
                 cout << "Transfer successful!\n";
             }
             else {
@@ -169,7 +170,7 @@ public:
             break;
 
         case 6:
-            updatePassword(client);
+            updatePassword(*client);
             break;
 
         case 7:

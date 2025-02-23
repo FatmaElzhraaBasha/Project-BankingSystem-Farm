@@ -136,11 +136,6 @@ public:
         cout << "Updated balance for client ID: " << clientID << " New Balance: " << newBalance << " EGP" << endl;
     }
 
-    // Generate a report about employee performance
-    void generateEmployeeReport() {
-        cout << "Generating Employee Report..." << endl;
-    }
-
     // Display Info method (override)
     void displayInfo() {
         cout << "     ** Employee Info **" << endl;

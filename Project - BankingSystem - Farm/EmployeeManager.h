@@ -6,6 +6,7 @@
 #include "FileHelper.h"
 #include "Validation.h"
 #include "FileManager.h"
+#include "Screen.h"
 using namespace std;
 
 class EmployeeManager
@@ -73,11 +74,15 @@ public:
 	}
 
 	static Employee* logIn(int id, string password) {
-		for (eItr == employeesInfo.begin(); eItr != employeesInfo.end(); eItr++) {
-			if (eItr->getId() == id && eItr->getPassword() == password)
+		for (eItr = employeesInfo.begin(); eItr != employeesInfo.end(); eItr++) {
+			if (eItr->getId() == id && eItr->getPassword() == password) {
+				cout << "\nLogin successful!\n";
 				return eItr._Ptr;
-			else
+			}
+			else {
+				cout << "\nInvalid ID or password.\n";
 				return NULL;
+			}
 		}
 	}
 
@@ -115,8 +120,11 @@ public:
 			break;
 		case7:
 			system("cls");
+			//Screen::loginOptions();
 			break;
-
+		default:
+			cout << "You Enter Invalid Number, Try Again !!" << endl;
+			break;
 		}
 	}
 };

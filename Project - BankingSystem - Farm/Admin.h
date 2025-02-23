@@ -49,8 +49,7 @@ public:
     void saveEmployeeToFile() {
         ofstream file("Employee.txt", ios::trunc);
         for (const auto& employee : employees) {
-            // file << employee.getId() << " " << employee.getName() << " " << employee.getPassword() << " " << employee.getSalary() << endl;
-            file << employee.getId() << " " << employee.getName() << " " << employee.getPassword() << endl;
+            file << employee.getId() << " " << employee.getName() << " " << employee.getPassword()<<employee.getSalary() << endl;
         }
         file.close();
         cout << "Employee data saved to file." << endl;
@@ -88,6 +87,12 @@ public:
             cout << "Employee ID: " << employee.getId() << ", Name: " << employee.getName() << endl;
         }
     }
+
+    // Generate a report about employee performance
+    void generateEmployeeReport() {
+        cout << "Generating Employee Report..." << endl;
+    }
+
     // Display Info (overrid)
     void displayInfo() {
         cout << "     ** Admin Info **" << endl;

@@ -10,11 +10,11 @@ private:
     }
 
     static void addEmployee(Employee& employee) {
-        FileHelper::saveEmployee(employee);
+        FileHelper::saveEmployee("Employees.txt", "EmployeeLastId.txt", employee);
     }
 
     static void addAdmin(Admin& admin) {
-        FileHelper::saveMyAdmin(admin);
+        FileHelper::saveMyAdmin("Admin.txt", "AdminId.txt", admin);
     }
 
     static vector<Client> getAllClients() {

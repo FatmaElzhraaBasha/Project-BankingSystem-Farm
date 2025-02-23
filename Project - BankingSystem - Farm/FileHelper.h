@@ -47,10 +47,10 @@ public:
         output.close();
     }
 
-    static void saveEmployee(Employee e) {
+    static void saveEmployee(string fileName, string lastIdFile, Employee e) {
         char delimiter = ',';
         int id = getLast("EmployeeLastId.txt");
-        string fileName = "Employees.txt";
+        fileName = "Employees.txt";
         fstream output(fileName, ios::app);
 
         if (!output.is_open()) {
@@ -62,9 +62,9 @@ public:
         output.close();
     }
 
-    static void saveMyAdmin(Admin a) {
+    static void saveMyAdmin(string fileName, string lastIdFile, Admin a) {
         char delimiter = ',';
-        string fileName = "Admin.txt";
+        fileName = "Admin.txt";
         fstream output(fileName, ios::out);
 
         if (!output.is_open()) {
