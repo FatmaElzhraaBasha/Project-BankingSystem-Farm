@@ -141,6 +141,7 @@
     <ClCompile Include="Project - BankingSystem - Farm.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Validation.cpp" />
+    <ClCompile Include="Welcome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Person.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Validation.h" />
+    <ClInclude Include="Welcome.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <stdio.h>
 #include <windows.h>
 #include "iostream"
@@ -10,235 +10,110 @@
 #include "ClientManager.h"
 #include "FileManager.h"
 #include "stdio.h"
+#include "Welcome.h"
 using namespace std;
 
-class Screen
-{
-private:
-    static Client* screenClient;
-    static Employee* screenEmployee;
-    static Admin* screenAdmin;
-
+class Screen {
 public:
-    //To Get Text In Middle Of The Screen
-    static int getConsoleWidth() {
-        CONSOLE_SCREEN_BUFFER_INFO csbi;
-        int width = 80;
-
-        if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
-            width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-        }
-        return width;
-    }
-
-    static void printCentered(string text) {
-        int consoleWidth = getConsoleWidth();
-        int padding = (consoleWidth - text.length()) / 2;
-
-        if (padding > 0) {
-            cout << string(padding, ' ');
-        }
-        cout << text << endl;
-    }
-
-    static void setConsoleColor() {
-        string colorCode;
-        system("color 2F"); // C: Background Color, F: Text Color
-        /*Color Code :
-                   0: Black        | 1: Blue         | 2: Green        | 3: Cyan        | 4: Red        | 5: Violet | 6: Yellow
-                   7: White - gray | 8: Dark gray    | 9: Light blue   | A: Light green | B : Light cyan
-                   C: Light red    | D: Light purple | E: Light yellow | F: Bright white*/
-    }
-
-    static void hello() {
+    // 1️⃣ عرض خيارات تسجيل الدخول
+    static void logInOptions() {
         system("cls");
-        setConsoleColor();
-        string art[] = {
-            "  ||     || |||||||| ||       ||        ||||||  ",
-            "  ||     || ||       ||       ||       ||    || ",
-            "   ||     || ||       ||       ||       ||    ||  ",
-            "  ||||||||| ||||||   ||       ||       ||    || ",
-            "  ||     || ||       ||       ||       ||    || ",
-            "  ||     || ||       ||       ||       ||    || ",
-            "   ||     || |||||||| |||||||| |||||||| ||||||||  "
-        };
+        cout << "\n=== Welcome to the Banking System ===\n";
+        cout << "1- Log in as Client\n";
+        cout << "2- Log in as Employee\n";
+        cout << "3- Log in as Admin\n";
+        cout << "4- Exit\n";
+        cout << "Enter your choice: ";
+    }
 
-        for (string line : art) {
-            printCentered(line);
-            Sleep(100);
+    // 2️⃣ تنفيذ تسجيل الدخول بناءً على اختيار المستخدم
+    static int logInAs() {
+        int choice;
+        cin >> choice;
+
+        if (cin.fail() || choice < 1 || choice > 4) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid choice! Please enter a number between 1-4.\n";
+            return -1;  // إشارة إلى خطأ في الإدخال
         }
-        cout << "\n\n\n";
+
+        return choice;  // إرجاع الرقم لاستخدامه لاحقاً
     }
 
-    static void welcome() {
-        //system("cls");
-        setConsoleColor();
-        string art[] = {
-           " __          __  _                            _           __                       _                 _    ",
-           " \\ \\        / / | |                          | |         / _|                     | |               | |   ",
-           "  \\ \\  /\\  / /__| | ___ ___  _ __ ___   ___  | |_ ___   | |_ __ _ _ __ _ __ ___   | |__   __ _ _ __ | | __",
-           "   \\ \\/  \\/ / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\  |  _/ _` | '__| '_ ` _ \\  | '_ \\ / _` | '_ \\| |/ /",
-           "    \\  /\\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | | || (_| | |  | | | | | | | |_) | (_| | | | |   < ",
-           "     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/  |_| \\__,_|_|  |_| |_| |_| |_.__/ \\__,_|_| |_|_|\\_\\",
-           "                                                                                                           ",
-           "                                                                                                           "
-        };
-
-        for (string line : art) {
-            printCentered(line);
-            Sleep(100);
-        }
-        cout << "\n";
-    }
-
-    static void message() {
-        setConsoleColor();
-        cout << "\033[1mAbout Us - FARM Bank \033[0m" << endl;
-        cout << "Our name is inspired by our founders: " << "\033[1m Fatma, Amr, Rozana, and Mai& Mohamed \033[0m " << endl;
-        cout << "reflecting our spirit of collaboration and shared growth." << endl;
-        cout << "At FARM Bank, we believe that every financial success starts as a small seed,\n"
-             <<"growing with vision and dedication.\n" << endl;
-        cout << "\033[1m Contact Us : \033[0m" << endl;
-        cout << "\033[1m Address: \033[0m" <<"123 Finance & Business St., Cairo, Egypt" << endl;
-        cout << "\033[1m Phone  : \033[0m" << "+20 100 123 4567" << endl;
-        cout << "\033[1m Fax    : \033[0m" << "+20 2 2345 6789" << endl;
-        cout << "\033[1m Email  : \033[0m" << "support@farmbank.com" << endl;
-        cout << "\033[1m For inquiries, \033[0m" << "feel free to reach out! Our team is always ready�to�assist�you" << endl;
-    }
-    static void loginOptions() {
-        cout << "(1) Client." << endl;
-        cout << "(2) Employee." << endl;
-        cout << "(3) Admin." << endl;
-    }
-
-    static int loginAs() {
-        loginOptions();
-        int personCode;
-        cout << "Login as: " << endl;
-        cin >> personCode;
-        return personCode;
-    }
-
-    static void invalid(int c) {
-
-    }
-
-    static void logout() {
-        loginScreen(loginAs());
-    }
-    static void logInScreens(int c) {
-        switch (c) {
-        case1:
-            ClientManager::clientOptions(screenClient);
-            break;
-        case2:
-            EmployeeManager::employeeOptions(screenClient);
-            break;
-        case3:
-            AdminManager::AdminOptions(screenClient);
-            break;
-        default:
-            cout << "Please enter a valid option" << endl;
-            break;
-        }
-    }
-    static void loginScreen(int c) {
-        int trials = 3;
-        int id;
+    // 3️⃣ التعامل مع محاولات تسجيل الدخول الفاشلة
+    static bool invalid(int userType) {
+        int id, attempts = 3;
         string password;
-        switch (c) {
-        case 1: {
-            while (trials > 0) {
-                cout << "Enter id: " << endl;
-                cin >> id;
-                cout << "Enter password: " << endl;
-                cin >> password;
-                screenClient = ClientManager::logIn(id, password);
-                if (screenClient != nullptr) {
-                    if (!ClientManager::clientOptions(screenClient)) {
-                        logout();
-                    }
-                    else {
-                        ClientManager::clientOptions(screenClient);
-                    }
-                    break;
+
+        while (attempts > 0) {
+            cout << "\nEnter ID: ";
+            cin >> id;
+            cout << "Enter Password: ";
+            cin >> password;
+
+            if (userType == 1) {
+                Client* client = ClientManager::logIn(id, password);
+                if (client) {
+                    while (ClientManager::clientOptions(client));
+                    return true;
                 }
-                else {
-                    cout << "Invalide user data." << endl;
-                }
-                trials--;
             }
-            cout << "You exceeded the number of trials, please contact the Bank"
-                << endl;
-            loginScreen(loginAs());
-            break;
-        }
-        case 2: {
-            trials = 3;
-            while (trials > 0) {
-                cout << "Enter id: " << endl;
-                cin >> id;
-                cout << "Enter password: " << endl;
-                cin >> password;
-                screenEmployee = EmployeeManager::logIn(id, password);
-                if (screenEmployee != nullptr) {
-                    if (!EmployeeManager::employeeOptions(screenClient)) {
-                        logout();
-                    }
-                    else {
-                        EmployeeManager::employeeOptions(screenClient);
-                    }
-                    break;
+            else if (userType == 2) {
+                Employee* employee = EmployeeManager::logIn(id, password);
+                if (employee) {
+                    while (EmployeeManager::employeeOptions(employee));
+                    return true;
                 }
-                else {
-                    cout << "Invalide user data." << endl;
-                }
-                trials--;
             }
-            cout << "You exceeded the number of trials, please contact the Admin!"
-                << endl;
-            loginScreen(loginAs());
-            break;
-        }
-        case 3: {
-            trials = 3;
-            while (trials > 0) {
-                cout << "Enter id: " << endl;
-                cin >> id;
-                cout << "Enter password: " << endl;
-                cin >> password;
-                screenAdmin = AdminManager::logIn(id, password);
-                if (screenAdmin != nullptr) {
-                    if (!AdminManager::AdminOptions(screenClient)) {
-                        logout();
-                    }
-                    else {
-                        AdminManager::AdminOptions(screenClient);
-                    }
-                    break;
+            else if (userType == 3) {
+                Admin* admin = AdminManager::logIn(id, password);
+                if (admin) {
+                    while (AdminManager::adminOptions(admin));
+                    return true;
                 }
-                else {
-                    cout << "Invalide user data." << endl;
-                }
-                trials--;
             }
-            cout << "You exceeded the number of trials, please contact the Manager!"
-                << endl;
-            loginScreen(loginAs());
-            break;
+
+            attempts--;
+            cout << "Invalid credentials! Attempts left: " << attempts << "\n";
         }
-        default:
-            cout << "Please enter a valid option" << endl;
-            break;
+
+        cout << "Too many failed attempts! Returning to main menu...\n";
+        system("pause");
+        return false;
+    }
+
+    // 4️⃣ تسجيل الخروج والعودة للقائمة الرئيسية
+    static void logOut() {
+        cout << "Logging out...\n";
+        system("pause");
+    }
+
+    // 5️⃣ شاشة تسجيل الدخول بناءً على نوع المستخدم
+    static void logInScreen(int userType) {
+        if (!invalid(userType)) {
+            return; // إذا فشل تسجيل الدخول، يرجع للقائمة الرئيسية
         }
     }
 
+    // 6️⃣ تشغيل التطبيق
     static void runApp() {
-        FileManager::getAllData();
-        hello();
-        welcome();
-        message();
-        logInScreens(loginAs());
+        while (true) {
+            logInOptions();
+            int userType = logInAs();
+
+            if (userType == 4) {
+                cout << "Exiting the system...\n";
+                break;
+            }
+
+            if (userType != -1) {
+                logInScreen(userType);
+                logOut();
+            }
+        }
     }
 };
+
+
 
