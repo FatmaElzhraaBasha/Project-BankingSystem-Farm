@@ -15,7 +15,7 @@ using namespace std;
 
 class Screen {
 public:
-    // 1️⃣ عرض خيارات تسجيل الدخول
+    // 1️⃣ Display login options menu
     static void logInOptions() {
         system("cls");
         cout << "\n=== Welcome to the Banking System ===\n";
@@ -26,7 +26,7 @@ public:
         cout << "Enter your choice: ";
     }
 
-    // 2️⃣ تنفيذ تسجيل الدخول بناءً على اختيار المستخدم
+    // 2️⃣ Get user choice and validate input
     static int logInAs() {
         int choice;
         cin >> choice;
@@ -35,13 +35,13 @@ public:
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid choice! Please enter a number between 1-4.\n";
-            return -1;  // إشارة إلى خطأ في الإدخال
+            return -1;  // Indicates an invalid input
         }
 
-        return choice;  // إرجاع الرقم لاستخدامه لاحقاً
+        return choice;  // Return valid choice for further processing
     }
 
-    // 3️⃣ التعامل مع محاولات تسجيل الدخول الفاشلة
+    // 3️⃣ Handle login attempts and limit them to 3 tries
     static bool invalid(int userType) {
         int id, attempts = 3;
         string password;
@@ -52,6 +52,7 @@ public:
             cout << "Enter Password: ";
             cin >> password;
 
+            // Attempt login based on user type
             if (userType == 1) {
                 Client* client = ClientManager::logIn(id, password);
                 if (client) {
@@ -74,35 +75,38 @@ public:
                 }
             }
 
+            // Reduce attempts if login fails
             attempts--;
             cout << "Invalid credentials! Attempts left: " << attempts << "\n";
         }
 
+        // Return to the main menu after 3 failed attempts
         cout << "Too many failed attempts! Returning to main menu...\n";
         system("pause");
         return false;
     }
 
-    // 4️⃣ تسجيل الخروج والعودة للقائمة الرئيسية
+    // 4️⃣ Logout and return to the main menu
     static void logOut() {
         cout << "Logging out...\n";
         system("pause");
     }
 
-    // 5️⃣ شاشة تسجيل الدخول بناءً على نوع المستخدم
+    // 5️⃣ Handle login screen based on user selection
     static void logInScreen(int userType) {
         if (!invalid(userType)) {
-            return; // إذا فشل تسجيل الدخول، يرجع للقائمة الرئيسية
+            return; // If login fails, return to the main menu
         }
     }
 
-    // 6️⃣ تشغيل التطبيق
+    // 6️⃣ Run the main application loop
     static void runApp() {
+
         while (true) {
             logInOptions();
             int userType = logInAs();
 
-            if (userType == 4) {
+            if (userType == 4) { // Exit the system
                 cout << "Exiting the system...\n";
                 break;
             }
@@ -114,6 +118,7 @@ public:
         }
     }
 };
+
 
 
 
