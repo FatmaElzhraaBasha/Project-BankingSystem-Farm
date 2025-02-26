@@ -101,7 +101,10 @@ public:
 
     // 6️⃣ Run the main application loop
     static void runApp() {
-
+        FileManager::getAllData();
+        Welcome::hello();
+        Welcome::welcome();
+        Welcome::message();
         while (true) {
             logInOptions();
             int userType = logInAs();
