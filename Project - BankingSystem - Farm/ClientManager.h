@@ -1,21 +1,22 @@
 #pragma once
 #include "Client.h"
-#include <iostream>
 #include "FileManager.h"
 #include <limits>
-#include "Validation.h"
 
 class ClientManager {
 private:
     static void printClientMenu() {
         cout << "\n=== Client Menu ===\n";
         cout << "1- Display my info\n";
-        cout << "2- Check balance\n";
-        cout << "3- Deposit\n";
-        cout << "4- Withdraw\n";
-        cout << "5- Transfer\n";
-        cout << "6- Update Password\n";
-        cout << "7- Logout\n";
+        cout << "2- Deposit\n";
+        cout << "3- Withdraw\n";
+        cout << "4- Transfer\n";
+        cout << "5- Check balance\n";
+        cout << "6- Currency Exchange\n";
+        cout << "7- Take Loan\n";
+        cout << "8- Account Statement\n";
+        cout << "9- Update Password\n";
+        cout << "10- Logout\n";
         cout << "Enter your choice: ";
     }
 public:
@@ -26,11 +27,11 @@ public:
     }
 
     //a method for updating Clients.txt file with the latest client data
-    static void updateClientFile(const vector<Client>& clients) {
-        ofstream file("Clients.txt", ios::trunc);
-        for (const auto& client : clients) {
-            file << client.getId() << "&" << client.getName() << "&"
-                << client.getPassword() << "&" << client.getBalance() << endl;
+    static void updateClientFile() {
+        fstream file("Clients.txt", ios::trunc);
+        for (const auto& client : clientsInfo) {
+            file << client.getId() << "," << client.getName() << ","
+                << client.getPassword() << "," << client.getBalance() << endl;
         }
         file.close();
     }
@@ -53,7 +54,6 @@ public:
 
         if (Validation::validatePassword(newPassword)) {
             client.setPassword(newPassword);
-            vector<Client> allClients;
             FileHelper::getClients();
 
             for (auto& existingClient : clientsInfo) {
@@ -63,7 +63,7 @@ public:
                 }
             }
 
-            updateClientFile(clientsInfo);
+            updateClientFile();
             cout << "Password updated successfully!\n";
         }
     }
@@ -73,11 +73,11 @@ public:
         FileHelper::getClients();
         for (const auto& client : clientsInfo) {
             if (client.getId() == id && client.getPassword() == password) {
-                cout << "\nLogin successful!\n";
+                cout << "\nLogin Successful!\n";
                 return cItr._Ptr;
             }
         }
-        cout << "\nInvalid ID or password.\n";
+        cout << "\nInvalid ID Or Password.\n";
         return NULL;
     }
 
@@ -105,6 +105,27 @@ public:
     //    updateClientFile(clientsInfo);
     //}
 
+    static void depoistAmount(Client* client) {
+        double amount;
+        cout << "Enter Amount To Deposit: ";
+        cin >> amount;
+        client->deposit(amount);
+    }
+
+    static void withdrawAmount(Client* client) {
+        double amount;
+        cout << "Enter Amount To withdraw: ";
+        cin >> amount;
+        client->withdraw(amount);
+    }
+
+    static void takeLoan (Client* client) {
+        double amount;
+        cout << "Enter Amount To loan: ";
+        cin >> amount;
+        client->takeLoan(amount);
+    }
+
     // client menu options that gives the user choices on what to do
     static bool clientOptions(Client* client) {
         int choice;
@@ -123,28 +144,20 @@ public:
 
         switch (choice) {
         case 1:
+            system("cls");
             client->displayInfo();
             break;
 
         case 2:
-            client->checkBalance();
+            system("cls");
+            depoistAmount(client);
             break;
 
         case 3:
-            if (getNumericInput(amount, "Enter amount to deposit: ") && Validation::validateDeposit(amount)) {
-                client->deposit(amount);
-                FileManager::updateClients();
-            }
+            withdrawAmount(client);
             break;
 
         case 4:
-            if (getNumericInput(amount, "Enter amount to withdraw: ") && Validation::validateWithdraw(amount, client->getBalance())) {
-                client->withdraw(amount);
-                FileManager::updateClients();
-            }
-            break;
-
-        case 5:
             cout << "Enter recipient ID: ";
             if (!(cin >> recipientId)) {
                 cout << "Invalid ID!\n";
@@ -161,7 +174,7 @@ public:
 
             if (recipient != clientsInfo.end()) {
                 client->transferTo(amount, *recipient);
-                updateClientFile(clientsInfo);
+                updateClientFile();
                 cout << "Transfer successful!\n";
             }
             else {
@@ -169,13 +182,36 @@ public:
             }
             break;
 
+        case 5:
+            system("cls");
+            client->checkBalance();
+            break;
+
         case 6:
-            updatePassword(*client);
+            system("cls");
+            client->currencyExchange();
             break;
 
         case 7:
+            system("cls");
+            takeLoan(client);
+            break;
+
+        case 8:
+            system("cls");
+            client->accountStatement();
+            break;
+
+        case 9: 
+            system("cls");
+            updatePassword(*client);
+            break;
+
+        case 10:
+            system("cls");
             cout << "Logging out...\n";
             return false;
+            break;
 
         default:
             cout << "Invalid choice!\n";

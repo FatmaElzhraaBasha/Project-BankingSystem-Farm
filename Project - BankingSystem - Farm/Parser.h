@@ -1,8 +1,6 @@
 #pragma once
 #include <sstream>
-#include <stdexcept>
-//#include <string>
-#include "global.h"
+#include "Admin.h"
 
 class Parser {
 private:

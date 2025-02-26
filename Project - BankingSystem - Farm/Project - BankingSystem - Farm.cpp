@@ -12,7 +12,7 @@ using namespace std;
 int Client::clientCounter = 0;
 const string Client::bankKey = "2025";
 int Employee::employeeCounter = 1;
-//Admin* Admin::myAdmin = nullptr;
+Admin* Admin::myAdmin = nullptr;
 
 
 static void runTests() {

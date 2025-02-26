@@ -136,7 +136,6 @@
     <ClCompile Include="EmployeeManager.cpp" />
     <ClCompile Include="FileHelper.cpp" />
     <ClCompile Include="FileManager.cpp" />
-    <ClCompile Include="global.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Project - BankingSystem - Farm.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="EmployeeManager.h" />
     <ClInclude Include="FileHelper.h" />
     <ClInclude Include="FileManager.h" />
-    <ClInclude Include="global.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Screen.h" />

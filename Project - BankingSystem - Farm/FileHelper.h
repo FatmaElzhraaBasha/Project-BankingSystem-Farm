@@ -1,14 +1,13 @@
 #pragma once
 #include <stdio.h>
-#include <string>
-#include <fstream>
-#include "Client.h"
-#include "Employee.h"
-#include "Admin.h"
+//#include <string>
+//#include <fstream>
+//#include "Client.h"
+//#include "Employee.h"
+//#include "Admin.h"
 #include "Parser.h"
-#include "global.h"
-
 using namespace std;
+
 class FileHelper {
 private:
     static void saveLast(string fileName, int id) {
@@ -47,10 +46,10 @@ public:
         output.close();
     }
 
-    static void saveEmployee(string fileName, string lastIdFile, Employee e) {
+    static void saveEmployee(Employee e) {
         char delimiter = ',';
         int id = getLast("EmployeeLastId.txt");
-        fileName = "Employees.txt";
+        string fileName = "Employees.txt";
         fstream output(fileName, ios::app);
 
         if (!output.is_open()) {
@@ -62,9 +61,9 @@ public:
         output.close();
     }
 
-    static void saveMyAdmin(string fileName, string lastIdFile, Admin a) {
+    static void saveMyAdmin(Admin a) {
         char delimiter = ',';
-        fileName = "Admin.txt";
+        string fileName = "Admin.txt";
         fstream output(fileName, ios::out);
 
         if (!output.is_open()) {
@@ -140,12 +139,12 @@ public:
     }
 
     static void clearFile(string fileName, string lastIdFile) {
-        ofstream output;
-        output.open(fileName, ofstream::out | ofstream::trunc);
-        output.close();
-        output.open(lastIdFile);
-        output << 0 << endl;
-        output.close();
+        fstream output1, output2;
+        output1.open(fileName, fstream::out | fstream::trunc);
+        output1.close();
+        output2.open(lastIdFile);
+        output2 << 0 << endl;
+        output2.close();
     }
 };
 

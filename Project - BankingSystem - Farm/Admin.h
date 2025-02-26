@@ -1,13 +1,8 @@
 #pragma once
-#include "Client.h"
 #include "Employee.h"
-#include "Person.h"
 
 class Admin : public Employee {
 private:
-    vector<Client> clients;
-    vector<Employee> employees;
-
     // Constructors
     //1-Defaule Cons
     //==========================
@@ -41,15 +36,16 @@ public:
     //Methods
     // Adding new Employee
     void addEmployee(Employee& employee) {
-        employees.push_back(employee);
+        employeesInfo.push_back(employee);
         saveEmployeeToFile();
     }
 
     // To save employee data at file
     void saveEmployeeToFile() {
-        ofstream file("Employee.txt", ios::trunc);
-        for (const auto& employee : employees) {
-            file << employee.getId() << " " << employee.getName() << " " << employee.getPassword()<<employee.getSalary() << endl;
+        fstream file("Employee.txt", ios::trunc);
+        for (const auto& employee : employeesInfo) {
+            file << employee.getId() << "," << employee.getName() << "," 
+                << employee.getPassword()<<","<<employee.getSalary() << endl;
         }
         file.close();
         cout << "Employee data saved to file." << endl;
@@ -57,7 +53,7 @@ public:
 
     // search for Employee by id
     Employee* searchEmployee(int id) {
-        for (auto& employee : employees) {
+        for (auto& employee : employeesInfo) {
             if (employee.getId() == id)
                 return &employee;
         }
@@ -80,18 +76,27 @@ public:
 
     // All Employee list ready for print
     void listEmployee() {
-        for (const auto& employee : employees) {
+        for (const auto& employee : employeesInfo) {
             //cout << "Employee ID: " << employee.getId() << ", Name: " << employee.getName()
              //   << ", Salary: " << employee.getSalary() << endl;
 
-            cout << "Employee ID: " << employee.getId() << ", Name: " << employee.getName() << endl;
+            cout << "Employee ID: " << employee.getId() << ", Password: " << employee.getPassword() <<
+                ", Name: " << employee.getName() << ", Salary : " << employee.getSalary() << endl;
         }
     }
 
-    // Generate a report about employee performance
-    void generateEmployeeReport() {
-        cout << "Generating Employee Report..." << endl;
-    }
+    void addInterest() {
+        double interestRate = 7;
+        //time_t now = time(0);
+        //tm* ltm = localtime(&now);
+        //if (ltm->tm_mday == 7) {
+            for (auto& client : clientsInfo) {
+                double interest = client.getBalance() * (interestRate / 100);
+                client.setBalance(client.getBalance() + interest);
+                cout << "Interest Added: " << interest << ", New Balance: " << client.getBalance() << endl;
+                cout << "Interest Added Succefully ..." << endl;
+            }
+        }
 
     // Display Info (overrid)
     void displayInfo() {
@@ -102,3 +107,7 @@ public:
         cout << "\n==============================\n";
     }
 };
+
+//Global Vector
+static vector <Admin> adminInfo;
+static vector <Admin>::iterator aItr;

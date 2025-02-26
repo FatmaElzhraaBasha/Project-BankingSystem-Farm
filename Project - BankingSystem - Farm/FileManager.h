@@ -1,7 +1,6 @@
 #pragma once
 #include "DataSource.h"
 #include "FileHelper.h"
-#include "global.h"
 
 class FileManager : public DataSource {
 private:
@@ -10,30 +9,27 @@ private:
     }
 
     static void addEmployee(Employee& employee) {
-        FileHelper::saveEmployee("Employees.txt", "EmployeeLastId.txt", employee);
+        FileHelper::saveEmployee(employee);
     }
 
     static void addAdmin(Admin& admin) {
-        FileHelper::saveMyAdmin("Admin.txt", "AdminId.txt", admin);
+        FileHelper::saveMyAdmin(admin);
     }
 
-    static vector<Client> getAllClients() {
+    static void getAllClients() {
         FileHelper::getClients();
-        return clientsInfo;
     }
 
-    static vector<Employee>getAllEmployees() {
+    static void getAllEmployees() {
         FileHelper::getEmployees();
-        return employeesInfo;
     }
 
-    static vector<Admin>getMyAdmin() {
+    static void getMyAdmin() {
         FileHelper::getMyAdmin();
-        return adminInfo;
     }
 
     static void removeAllClients() {
-        FileHelper::clearFile("Clients.txt", "ClientsLastId.txt");
+        FileHelper::clearFile("Clients.txt", "ClientLastId.txt");
     }
 
     static void removeAllEmployees() {
@@ -63,7 +59,7 @@ public:
             addEmployee(*eItr);
     }
     
-    static void updateAdmin() {
+    static void updateMyAdmin() {
         removeMyAdmin();
         for (aItr = adminInfo.begin(); aItr != adminInfo.end(); aItr++)
             addAdmin(*aItr);

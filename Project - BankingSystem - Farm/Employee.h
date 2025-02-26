@@ -1,8 +1,5 @@
 #pragma once
-#include "Person.h"
 #include "Client.h"
-#include <vector>
-#include <fstream>
 
 class Employee : public Person {
 protected:
@@ -10,8 +7,6 @@ protected:
     double salary;
     int id;
     static int employeeCounter;        // Counter for unique ID generation
-
-    vector<Client> clientVector;            // Vector to store clients data
 
 public:
     // Constructors
@@ -53,15 +48,16 @@ public:
     //Methods:
     // To add new client
     void addClient(Client& client) {
-        clientVector.push_back(client);
+        clientsInfo.push_back(client);
         saveClientsToFile();
     }
 
     // To save client data at file
     void saveClientsToFile() {
         ofstream file("Clients.txt", ios::trunc);
-        for (auto& client : clientVector) {
-            file << to_string(client.getId()) << " " << client.getName() << " " << client.getPassword() << " " << client.getBalance() << endl;
+        for (auto& client : clientsInfo) {
+            file << to_string(client.getId()) << "," << client.getName() << "," << 
+                client.getPassword() << "," << client.getBalance() << endl;
         }
         file.close();
         cout << "Clients data saved to file." << endl;
@@ -69,7 +65,7 @@ public:
 
     // Search for client by id
     Client* searchClient(int id) {
-        for (auto& client : clientVector) {
+        for (auto& client : clientsInfo) {
             if (client.getId() == id) {
                 return &client;
             }
@@ -79,7 +75,7 @@ public:
 
     // Search for client by Name
     Client* searchClient(string name) {
-        for (auto& client : clientVector) {
+        for (auto& client : clientsInfo) {
             if (client.getName() == name) {
                 return &client;
             }
@@ -89,12 +85,12 @@ public:
 
     // list of clients to print
     void listClients() {
-        if (clientVector.empty()) {
+        if (clientsInfo.empty()) {
             cout << "No clients available." << endl;
             return;
         }
         cout << "List of Clients:" << endl;
-        for (auto& client : clientVector) {
+        for (auto& client : clientsInfo) {
             cout << "ID: " << to_string(client.getId()) << ", Name: " << client.getName()
                 << ", Balance: " << client.getBalance() << " EGP" << endl;
         }
@@ -116,24 +112,83 @@ public:
     }
 
     //Extra Methods
-    void viewClientDetails(string clientID) {
-        cout << "Viewing details for client ID: " << clientID << endl;
-        // Read client details from Clients.txt
+    // Read client details from Clients.txt
+    void viewClientDetails(int id) {
+        cout << "Viewing details for client ID: " << id << endl;
+        searchClient(id);
+        for (auto& client : clientsInfo) {
+            if (client.getId() == id) {
+                cout << "ID: " << to_string(client.getId()) << ", Name: " << client.getName()
+                    << ", Balance: " << client.getBalance() << " EGP" << endl;
+            }
+        }
     }
 
     // Update loan data in client file
-    void approveLoan(string clientID, double amount) {
-        cout << "Loan approved for client ID: " << clientID << " Amount: " << amount << " EGP" << endl;
+    void approveLoan(double amount) {
+        Client client;
+        if (amount <= client.getBalance() * 5) {
+            client.deposit(amount);
+            cout << "Loan approved for Client ID: " << client.getId() << " Amount: " << amount << endl;
+        }
+        else {
+            cout << "Loan denied for Client ID: " << client.getId() << endl;
+        }
     }
 
-    // Update client status in file
-    void blockClient(string clientID) {
-        cout << "Client ID: " << clientID << " has been blocked!" << endl;
+    // Function to block an account
+    void blockClient(int & id) {
+        fstream ClientsFile("Clients.txt"); // Original clients file
+        fstream tempFile("temp.txt"); // Temporary file to store remaining customers
+        fstream blockListFile("ClientsBlockList.txt", ios::app); // Append mode for blocked accounts
+
+        if (!ClientsFile || !blockListFile || !tempFile) {
+            cout << "Error opening files.\n";
+            return;
+        }
+
+        string line;
+        bool accountBlocked = false;
+
+        while (getline(ClientsFile, line)) {
+            if (line.find(id) != string::npos) {
+                // Move the account to blockList.txt
+                blockListFile << line << endl;
+                accountBlocked = true;
+            }
+            else {
+                // Keep other accounts in temp.txt
+                tempFile << line << endl;
+            }
+        }
+
+        ClientsFile.close();
+        tempFile.close();
+        blockListFile.close();
+
+        // Replace original file with updated temp file
+        remove("Clients.txt");
+        rename("temp.txt", "Clients.txt");
+
+        if (accountBlocked) {
+            cout << "Client Who Has Id Number: " << id << " Has Been Blocked.\n";
+        }
+        else {
+            cout << "Client Not Found!!.\n";
+        }
     }
 
     // Update client balance in file
-    void updateClientBalance(string clientID, double newBalance) {
-        cout << "Updated balance for client ID: " << clientID << " New Balance: " << newBalance << " EGP" << endl;
+    void updateClientBalance(int id, double newBalance) {
+        Client* client = searchClient(id);
+        if (client) {
+            client->setBalance(newBalance);
+            saveClientsToFile();
+            cout << "Updated balance for client ID: " << id << " New Balance: " << newBalance << " EGP" << endl;
+        }
+        else {
+            cout << "Client with ID " << id << " not found in the system." << endl;
+        }
     }
 
     // Display Info method (override)
@@ -145,3 +200,7 @@ public:
         cout << "\n==============================\n";
     }
 };
+
+//Global Vector
+static vector <Employee> employeesInfo;
+static vector <Employee>::iterator eItr;
